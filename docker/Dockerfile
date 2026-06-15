@@ -45,11 +45,10 @@ RUN git clone https://github.com/nesi/training-environment-k8s-utils.git /opt/oo
 
 
 # copy the repo source (e.g. notebooks) to the container image and install dependencies
-ARG ML102_HASH="a25de25dbbd5ecfce2147836d58740027512b9d9"
+ARG ML102_VERSION="v0.1.1"
 
-RUN git clone https://github.com/nesi/ml102_workshop.git /opt/ml102_workshop \
+RUN git clone --depth 1 --branch $ML102_VERSION https://github.com/nesi/ml102_workshop.git /opt/ml102_workshop \
     && cd /opt/ml102_workshop \
-    && git checkout $ML102_HASH \
     && pip3 --no-cache-dir install -r requirements.txt \
     && pip3 --no-cache-dir install jupyterlab \
     && rm -rf /opt/ml102_workshop/.git
