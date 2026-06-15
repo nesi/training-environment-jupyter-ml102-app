@@ -45,11 +45,11 @@ jobs:
             -O /tmp/flower_photos.tgz
           tar -xzf /tmp/flower_photos.tgz -C docker/data
           pip install -q tensorflow-datasets
-          python3 -c "
+          python3 << 'EOF'
 import tensorflow_datasets as tfds
 tfds.load('cats_vs_dogs', data_dir='docker/data/tensorflow_datasets', download=True)
 print('cats_vs_dogs downloaded OK')
-"
+EOF
 
       - name: Build and push Docker image
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
