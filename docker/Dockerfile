@@ -44,12 +44,11 @@ RUN git clone https://github.com/nesi/training-environment-k8s-utils.git /opt/oo
     && rm -rf /opt/ood-k8s-utils
 
 
-# datasets pre-downloaded by CI into docker/data/ and copied here
-# (Google Storage URLs are blocked from within Docker build on GitHub runners)
+# flower_photos pre-downloaded by CI into docker/data/ (Google Storage blocks CI IPs for mledu-datasets)
+# cats_and_dogs_filtered downloaded at notebook runtime via tf.keras.utils.get_file fallback
 COPY data/flower_photos /var/lib/flower_photos
-COPY data/cats_and_dogs_filtered /var/lib/cats_and_dogs_filtered
-RUN chown -R root:root /var/lib/flower_photos /var/lib/cats_and_dogs_filtered \
-    && chmod -R o+rX /var/lib/flower_photos /var/lib/cats_and_dogs_filtered
+RUN chown -R root:root /var/lib/flower_photos \
+    && chmod -R o+rX /var/lib/flower_photos
 
 # copy the repo source (e.g. notebooks) to the container image and install dependencies
 ARG ML102_VERSION="v0.1.1"
