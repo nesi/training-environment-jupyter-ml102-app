@@ -51,7 +51,7 @@ RUN chown -R root:root /var/lib/flower_photos \
     && chmod -R o+rX /var/lib/flower_photos
 
 # copy the repo source (e.g. notebooks) to the container image and install dependencies
-ARG ML102_VERSION="v0.1.1"
+ARG ML102_VERSION="v0.1.2"
 
 RUN git clone --depth 1 --branch $ML102_VERSION https://github.com/nesi/ml102_workshop.git /opt/ml102_workshop \
     && cd /opt/ml102_workshop \
