@@ -46,7 +46,7 @@ jobs:
           tar -xzf /tmp/flower_photos.tgz -C docker/data
 
       - name: Install tensorflow-datasets
-        run: pip install -q tensorflow-datasets
+        run: pip install -q tensorflow-datasets importlib_resources
 
       - name: Download cats_vs_dogs dataset via tfds
         shell: python
