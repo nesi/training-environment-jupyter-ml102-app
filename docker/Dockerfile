@@ -44,6 +44,20 @@ RUN git clone https://github.com/nesi/training-environment-k8s-utils.git /opt/oo
     && rm -rf /opt/ood-k8s-utils
 
 
+# download training datasets into the image so notebooks don't need to fetch at runtime
+RUN wget -nv --tries=3 --waitretry=10 https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz \
+        -O /var/lib/flower_photos.tgz \
+    && tar -xzf /var/lib/flower_photos.tgz -C /var/lib \
+    && rm -f /var/lib/flower_photos.tgz \
+    && chown -R root:root /var/lib/flower_photos \
+    && chmod -R o+rX /var/lib/flower_photos \
+    && wget -nv --tries=3 --waitretry=10 https://storage.googleapis.com/mledu-datasets/cats_and_dogs_filtered.zip \
+        -O /var/lib/cats_and_dogs_filtered.zip \
+    && unzip -q -d /var/lib /var/lib/cats_and_dogs_filtered.zip \
+    && rm -f /var/lib/cats_and_dogs_filtered.zip \
+    && chown -R root:root /var/lib/cats_and_dogs_filtered \
+    && chmod -R o+rX /var/lib/cats_and_dogs_filtered
+
 # copy the repo source (e.g. notebooks) to the container image and install dependencies
 ARG ML102_VERSION="v0.1.1"
 
