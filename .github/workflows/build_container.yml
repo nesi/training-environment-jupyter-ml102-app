@@ -44,9 +44,17 @@ jobs:
           wget -nv https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz \
             -O /tmp/flower_photos.tgz
           tar -xzf /tmp/flower_photos.tgz -C docker/data
-          wget -nv https://storage.googleapis.com/mledu-datasets/cats_and_dogs_filtered.zip \
-            -O /tmp/cats_and_dogs_filtered.zip
-          unzip -q -d docker/data /tmp/cats_and_dogs_filtered.zip
+          pip install -q tensorflow
+          python3 - <<'EOF'
+          import tensorflow as tf, shutil, pathlib
+          path = tf.keras.utils.get_file(
+              'cats_and_dogs_filtered.zip',
+              origin='https://storage.googleapis.com/mledu-datasets/cats_and_dogs_filtered.zip',
+              extract=True
+          )
+          src = pathlib.Path(path).parent / 'cats_and_dogs_filtered'
+          shutil.copytree(src, 'docker/data/cats_and_dogs_filtered')
+          EOF
 
       - name: Build and push Docker image
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
